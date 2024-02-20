@@ -1,0 +1,14 @@
+On this repo there are implementations on several languages
+of the heap data structure.
+
+Maybe some algorithms using this structure will also e implemented on
+the future, such as heapsort, and other structures such as the priority
+queue.
+
+A heap is a binary tree who mantains several invariants:
+1- All the levels of the tree are complete except, perhaps, the last one.
+2- Insertions are done from left to right on the last uncomplete level, or in
+a new level if all the previous levels are complete.
+Deletions works the same but from right to left.
+3- For all child nodes y from node x holds that x R y where R is an order relation.
+For example x <= y  (or x >= y)

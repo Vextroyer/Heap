@@ -1,3 +1,6 @@
+using System;
+using System.Text;
+
 /// <summary>
 /// Array-based implementation of heap. Use a fixed array size. Knowing the amount of elements
 /// by advance is recommended. 
@@ -62,8 +65,7 @@ class Heap{
     public int RemoveMinimum(){
         int minimum = PeekMinimum();
 
-        node[0] = node[Size - 1];// Assign the value of the last element of the heap to the root
-        --Size;// Remove the last node from the heap
+        node[0] = node[--Size];// Assign the value of the last element of the heap to the root
 
         HeapifyDown(0);
 
@@ -74,43 +76,34 @@ class Heap{
     /// </summary>
     /// <param name="actualIndex">The index of the node to heapify.</param>
     private void HeapifyDown(int actualIndex){
+        int c = node[actualIndex];//for swapping
+
         // While node is not a leaf node
-        while(actualIndex < Size / 2){
+        while(actualIndex < (Size >> 1)){
             // Compute child nodes indexes.
-            int leftChildIndex = actualIndex * 2 + 1;
-            int RightChildIndex = leftChildIndex + 1;
+            int leftChildIndex = (actualIndex << 1) + 1;
+            int rightChildIndex = leftChildIndex + 1;
+            if(rightChildIndex >= Size)rightChildIndex = leftChildIndex;// special case , avoid overflow
 
             // Consider the minimum between the actual node and its children nodes.
 
-            int c = node[actualIndex];//for swapping
-            if(RightChildIndex < Size){
-                //The minimum is the left child
-                if(node[leftChildIndex] <= node[actualIndex] && node[leftChildIndex] <= node[RightChildIndex]){
-                    //Swap actual node and left child values
-                    node[actualIndex] = node[leftChildIndex];
-                    node[leftChildIndex] = c;
-
-                    actualIndex = leftChildIndex;
-                }
-                //The minimum if the right child
-                else if(node[RightChildIndex] <= node[actualIndex] && node[RightChildIndex] <= node[leftChildIndex]){
-                    //Swap actual node and left child values
-                    node[actualIndex] = node[RightChildIndex];
-                    node[RightChildIndex] = c;
-
-                    actualIndex = RightChildIndex;
-                }
-                //The minimum is the actual node ,invariants hold, stop
-                else return;
-            }
-            //Special case when the node doesnt have right child.
-            else if(node[leftChildIndex] <= node[actualIndex]){
+            //The minimum is the left child
+            if(node[leftChildIndex] <= node[actualIndex] && node[leftChildIndex] <= node[rightChildIndex]){
                 //Swap actual node and left child values
                 node[actualIndex] = node[leftChildIndex];
                 node[leftChildIndex] = c;
 
                 actualIndex = leftChildIndex;
             }
+            //The minimum if the right child
+            else if(node[rightChildIndex] <= node[actualIndex] && node[rightChildIndex] <= node[leftChildIndex]){
+                //Swap actual node and left child values
+                node[actualIndex] = node[rightChildIndex];
+                node[rightChildIndex] = c;
+
+                actualIndex = rightChildIndex;
+            }
+            //The minimum is the actual node ,invariants hold, stop
             else return;
         }
     }
@@ -141,5 +134,15 @@ class Heap{
                 return;
             }
         }
+    }
+
+    public override string ToString(){
+        StringBuilder s = new StringBuilder();
+        s.Append('[');
+        for(int i=0;i<Size;++i){
+            s.Append(" " + node[i].ToString() + " ");
+        }
+        s.Append(']');
+        return s.ToString();
     }
 }

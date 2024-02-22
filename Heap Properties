@@ -1,0 +1,22 @@
+Here are listed several heap properties:
+
+The minimum number of elements in a heap of height h
+is 2^h, and the maximum number of elements is 2^h(+1) - 1.
+
+
+The height of a heap of n-elements is at most log n.
+
+
+On any subtree of a max-heap(min-heap) the root of the subtree
+is the maximum(minimum) element.
+
+
+The kth largest element of a heap appears on level at most k assuming
+all elements to be different.
+
+
+A increasingly-sorted array is a min-heap.
+A decreasingly-sorted array is a max-heap.
+
+
+
